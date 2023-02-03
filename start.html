@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>bild1</title>
+</head>
+<body>
+	<style type="text/css">
+		body {
+			margin:0;
+		}
+	</style>
+	<canvas id = "canvas" width = "1900" height = "920"></canvas>
+	<script type="text/javascript">
+		var can = document.getElementById('canvas');
+		var ctx = can.getContext("2d");
+		var size = 50;
+		ctx.lineWeigt = size / 20;
+		var screenSive = {
+			width : 1900,
+			height : 920,
+		};
+		var mapSize = {
+			y : 9,
+			x : 12,
+		};
+		var keyList = {
+			"d" : "left",
+			"D" : "left",
+			"s" : "bottom",
+			"S" : "bottom",
+			"a" : "right",
+			"A" : "right",
+			"w" : "top",
+			"W" : "top",
+		};
+	</script>
+	<script type="text/javascript" src="mapGenerator.js"></script>
+	<script type="text/javascript" src="objecWorkt.js"></script>
+	<script type="text/javascript" src="base.js"></script>
+</body>
+</html>
