@@ -1,54 +1,73 @@
-var MapX;
 var bigMap = {};
+var possible = [];
 var rCoord = {
 	x : 0,
 	y : 0,
 };
-var generator;
 var seed = Math.floor(Math.random() * 100000);
 while (seed < 9999) {
 	seed = Math.floor(Math.random() * 100000);
 };
-var getRandomBySeed = function(chance) {
+console.log(seed);
+var getRandomBySeed = function(chance, mod) { // по стандарту шанс 50%
 	var prok = 0;
 	for (var i = 0; i < 9; i++) {
-		if (Math.tan(seed) > 0) {
+		if ((Math.sin(seed * mod) + (chance / 10)) > 0) {
 			prok++;
 		};
-		if (prok >= chance) {
+		if (prok >= 5) {
 			return true;
 		};
 	};
 	return false;
 };
-var posiblRoom = []; // {x : ?, y : ?};
-var roomRandom = function(number) {
-	for (var i = 0; i < posiblRoom.length; i++) {
-		if (getRandomBySeed(5)) {
-			bigMap[number.y][number.x] = "room";
-			posiblRoom.shift();
-		} else {
-			posiblRoom.push(posiblRoom.shift());
-		}
+var scan = function(YF, XF) { // функція яка перевіряє наявність кімнати
+	if (bigMap[YF]) {
+		if (bigMap[YF][XF] === undefined) {
+			possible.push({YF, XF}); //{y : ?, x : ?}
+		};
+	} else {
+		possible.push({YF, XF});
 	};
 };
-var checkRoom = function(xDif, yDif) {
-	if (bigMap[rCoord.y + yDif] !== undefined) {
-		if (bigMap[rCoord.y + yDif][rCoord.x + xDif] === undefined) {
-			posiblRoom.push({x : (rCoord.x + xDif), y : rCoord.y});
-			console.log(true);
+var possibleTry = function() {
+	for (var i = 0; i < possible.length; i++) {
+		if (getRandomBySeed(10 / possible.length, i + 1)) {
+			var select = possible[i];
+			var simplify = bigMap[select["YF"]];
+			if (bigMap[select["YF"]]) {
+				simplify[select["XF"]] = "room";
+			} else {
+				bigMap[select["YF"]] = {};
+				bigMap[select["YF"]][select["XF"]] = "room";
+			};
+		};
+		possible.shift();
+	};
+};
+var detect = function(operator) {
+	for (var i = 0; i < mapSize.y; i++) {
+		if (bigMap[i]) {
+			for (var o = 0; o < mapSize.x; o++) {
+				if (bigMap[i][o]) {
+					scan(i, o + 1);
+					scan(i + 1, o);
+					scan(i, o - 1);
+					scan(i - 1, o);
+				};
+			};
 		};
 	};
 };
-var gener = function (roomNumber) {
-	console.log(posiblRoom);
-	bigMap[0] = {
-		0 : "room",
+var setMap = function (number) {
+	bigMap = {
+		4 : {
+			4 : "room",
+		},
 	};
-	checkRoom(1, 0);
-	if (posiblRoom.length > 0) {
-		roomRandom(posiblRoom[0]);
-
+	for (var i = 0; i < 5; i++) {
+		detect();
+		possibleTry()
 	};
 };
-gener();
+setMap(10);

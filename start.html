@@ -11,9 +11,12 @@
 	</style>
 	<canvas id = "canvas" width = "1900" height = "920"></canvas>
 	<script type="text/javascript">
+		var tl = function(argument) {
+			console.log(argument);
+		};
 		var can = document.getElementById('canvas');
 		var ctx = can.getContext("2d");
-		var size = 50;
+		var size = 75;
 		ctx.lineWeigt = size / 20;
 		var screenSive = {
 			width : 1900,
@@ -21,7 +24,7 @@
 		};
 		var mapSize = {
 			y : 9,
-			x : 12,
+			x : 9,
 		};
 		var keyList = {
 			"d" : "left",

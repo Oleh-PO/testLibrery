@@ -1,6 +1,6 @@
 var gameObject = function(thisRadius, thisColor, thisFigure, thisFill) {
-	this.x = (size / 2) * 5;
-	this.y = (size / 2) * 5;
+	this.x = (size / 2);
+	this.y = (size / 2);
 	this.raidus = thisRadius;
 	this.speed = 0;
 	this.vector = 0;
