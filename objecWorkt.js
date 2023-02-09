@@ -1,7 +1,7 @@
 var gameObject = function(thisRadius, thisColor, thisFigure, thisFill) {
 	this.x = (size / 2);
 	this.y = (size / 2);
-	this.raidus = thisRadius;
+	this.radius = thisRadius;
 	this.speed = 0;
 	this.vector = 0;
 	this.color = thisColor;
@@ -29,15 +29,19 @@ gameObject.prototype.moveBS = function(direction) {
 	if (direction) {
 		switch(direction) {
 			case "top" : 
+				this.vector = 0;
 				this.y -= size;
 				break;
 			case "bottom" : 
+				this.vector = 180;
 				this.y += size;
 				break;
 			case "left" : 
+				this.vector = 90;
 				this.x += size;
 				break;
 			case "right" : 
+				this.vector = 270;
 				this.x -= size;
 				break;
 		};
@@ -49,13 +53,13 @@ gameObject.prototype.drow = function() {
 	ctx.beginPath();
 	switch(this.figure) {
 		case "raund" : 
-			circle(this.x, this.y, this.raidus);
+			circle(this.x, this.y, this.radius);
 			break;
 		case "square" :
-			square(this.x, this.y, this.raidus);
+			square(this.x, this.y, this.radius);
 			break;
 		case "triangle" :
-			triangle(this.x, this.y, this.raidus);
+			triangle(this.x, this.y, this.radius);
 			break;
 	};
 	if (player.fill) {
@@ -63,4 +67,24 @@ gameObject.prototype.drow = function() {
 	} else (
 		ctx.stroke()
 	);
+};
+gameObject.prototype.rotation = function() {
+	ctx.strokeStyle = "Black";
+	ctx.beginPath();
+	ctx.moveTo(this.x, this.y);
+	switch(this.vector) {
+		case 0 : 
+			ctx.lineTo(this.x, this.y - this.radius);
+			break;
+		case 90 : 
+			ctx.lineTo(this.x + this.radius, this.y);
+			break;
+		case 180 : 
+			ctx.lineTo(this.x, this.y + this.radius);
+			break;
+		case 270 : 
+			ctx.lineTo(this.x - this.radius, this.y);
+			break;
+	};
+	ctx.stroke();
 };

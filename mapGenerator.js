@@ -4,10 +4,11 @@ var rCoord = {
 	x : 0,
 	y : 0,
 };
-var seed = Math.floor(Math.random() * 100000);
-while (seed < 9999) {
-	seed = Math.floor(Math.random() * 100000);
+var seed = Math.floor(Math.random() * 1000000);
+while (seed < 99999) {
+	seed = Math.floor(Math.random() * 1000000);
 };
+// seed = 721557;
 console.log(seed);
 var getRandomBySeed = function(chance, mod) { // по стандарту шанс 50%
 	var prok = 0;
@@ -32,7 +33,7 @@ var scan = function(YF, XF) { // функція яка перевіряє ная
 };
 var possibleTry = function() {
 	for (var i = 0; i < possible.length; i++) {
-		if (getRandomBySeed(10 / possible.length, i + 1)) {
+		if (getRandomBySeed(10 / possible.length, Math.tan(i))) {
 			var select = possible[i];
 			var simplify = bigMap[select["YF"]];
 			if (bigMap[select["YF"]]) {

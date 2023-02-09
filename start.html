@@ -5,11 +5,16 @@
 </head>
 <body>
 	<style type="text/css">
+		button {
+			margin: 10px;
+			font-size: 30px;  
+		}
 		body {
 			margin:0;
 		}
 	</style>
-	<canvas id = "canvas" width = "1900" height = "920"></canvas>
+	<canvas id = "canvas" width = "1900" height = "675"></canvas>
+	<button onclick="moveFlag()">move</button>
 	<script type="text/javascript">
 		var tl = function(argument) {
 			console.log(argument);
@@ -17,10 +22,11 @@
 		var can = document.getElementById('canvas');
 		var ctx = can.getContext("2d");
 		var size = 75;
-		ctx.lineWeigt = size / 20;
+		var offset = size / 10;
+		ctx.lineWidth = size / 10;
 		var screenSive = {
 			width : 1900,
-			height : 920,
+			height : 675,
 		};
 		var mapSize = {
 			y : 9,
@@ -35,10 +41,14 @@
 			"A" : "right",
 			"w" : "top",
 			"W" : "top",
+			"m" : "map",
+			"M" : "map",
 		};
 	</script>
 	<script type="text/javascript" src="mapGenerator.js"></script>
 	<script type="text/javascript" src="objecWorkt.js"></script>
+	<script type="text/javascript" src="roomWork.js"></script>
 	<script type="text/javascript" src="base.js"></script>
+	<script type="text/javascript" src="mausWork.js"></script>
 </body>
 </html>

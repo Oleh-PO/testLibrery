@@ -1,10 +1,29 @@
 var keyPress;
+var mapFlag = false;
+var isMoving = false;
 document.addEventListener('keydown', function(event) {
-  keyPress = keyList[event.key];
-  mapDrow();
-  // screenWork();
+	player.moveBS(keyPress);
+	screenWork();
 });
+var moveFlag = function() {
+	if (isMoving) {
+		isMoving = false;
+	} else {
+		isMoving = true;
+	};
+	screenWork();
+};
 var mapDrow = function() {
+	if (keyPress === "map") {
+		if (mapFlag) {
+			mapFlag = false;
+		} else {
+			mapFlag = true;
+		};
+	};
+	if (mapFlag === false) {
+		return;
+	};
 	ctx.fillStyle = "Grey";
 	ctx.fillRect(145, 60, (size * mapSize.x) - size * 0.25, (size * mapSize.y) - size * 0.25);
 	ctx.fillStyle = "Black";
@@ -22,8 +41,9 @@ var mapDrow = function() {
 };
 var screenWork = function() {
 	ctx.clearRect(0, 0, screenSive.width, screenSive.height);
-	player.moveBS(keyPress);
+	roomDrow();
 	player.drow();
+	player.rotation();
+	mapDrow();
 };
 screenWork();
-mapDrow();
