@@ -1,29 +1,51 @@
 var keyPress;
 var mapFlag = false;
 var isMoving = false;
+var isRotation = false;
+var stats = {
+	energyMax : 5,
+	energyLeft : 0,
+	room : {
+		x : 4,
+		y : 4,
+	},
+	invSlots : 10,
+}
 document.addEventListener('keydown', function(event) {
 	player.moveBS(keyPress);
 	screenWork();
 });
-var moveFlag = function() {
-	if (isMoving) {
-		isMoving = false;
-	} else {
-		isMoving = true;
-	};
+var moveFlag = function(what) {
+	switch (what) {
+		case 'mave':
+			isMoving = !isMoving
+			isRotation = false;
+			break;
+		case 'map':
+			mapFlag = !mapFlag; 
+			break;
+		case 'rot':
+			isRotation = !isRotation; 
+			isMoving = false;
+			break;
+	}
+	cursorCheng();
 	screenWork();
 };
+var cursorCheng = function() {
+	if (isMoving || isRotation || mapFlag) {
+		can.className = 'pointer';
+	} else {
+		can.className = 'def';
+	}
+}
 var mapDrow = function() {
 	if (keyPress === "map") {
-		if (mapFlag) {
-			mapFlag = false;
-		} else {
-			mapFlag = true;
-		};
-	};
+		mapFlag = !mapFlag;
+	}
 	if (mapFlag === false) {
 		return;
-	};
+	}
 	ctx.fillStyle = "Grey";
 	ctx.fillRect(145, 60, (size * mapSize.x) - size * 0.25, (size * mapSize.y) - size * 0.25);
 	ctx.fillStyle = "Black";
@@ -46,4 +68,5 @@ var screenWork = function() {
 	player.rotation();
 	mapDrow();
 };
-screenWork();
+
+document.addEventListener('DOMContentLoaded', screenWork);

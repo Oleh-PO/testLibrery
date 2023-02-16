@@ -4,26 +4,20 @@ var blockMouse = {
 };
 canvas.addEventListener('click', function(event) {
 	if (isMoving) {
-		while(Math.floor(event.x / size) * size + size / 2 !== player.x || Math.floor(event.y / size) * size + size / 2 !== player.y) {
-			if (Math.abs(player.x - event.x) > Math.abs(player.y - event.y)) {
-				if (player.x - event.x > 0) {
-					keyPress = "right";
-				} else {
-					keyPress = "left";
-				};
-			} else {
-				if (player.y - event.y > 0) {
-					keyPress = "top";
-				} else {
-					keyPress = "bottom";
-				};
-			};
-			player.moveBS(keyPress);
-			screenWork();
-		};
-	};
-	isMoving = false;
+		rotor(event.y - player.y, event.x - player.x);
+		player.x = Math.floor(event.x / size) * size + size / 2;
+		player.y = Math.floor(event.y / size) * size + size / 2;
+		isMoving = false;
+	} else if (isRotation) {
+		rotor(event.y - player.y, event.x - player.x);
+		isRotation = false;
+	} else if (mapFlag) {
+		console.log(true);
+	}
+	cursorCheng();
+	screenWork();
 });
+
 canvas.addEventListener('mousemove', function(event) {
 	if (isMoving) {
 		blockMouse.x = Math.floor(event.x / size);

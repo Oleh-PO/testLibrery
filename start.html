@@ -4,17 +4,17 @@
 	<title>bild1</title>
 </head>
 <body>
-	<style type="text/css">
-		button {
-			margin: 10px;
-			font-size: 30px;  
-		}
-		body {
-			margin:0;
-		}
-	</style>
-	<canvas id = "canvas" width = "1900" height = "675"></canvas>
-	<button onclick="moveFlag()">move</button>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<canvas id = "canvas" class="def" width = "1900" height = "675"></canvas>
+	<button id="move" onclick="moveFlag('mave')">move</button>
+	<button id="rotation" onclick="moveFlag('rot')">rotation</button>
+	<button id="map" onclick="moveFlag('map')">map</button>
+	<button class="add">1</button>
+	<button class="add">2</button>
+	<button class="add">3</button>
+	<h1 class="en">Left :</h1>
+	<output name="number" class="en">5</output>
+	<button id="smol">END <br> TURN</button>
 	<script type="text/javascript">
 		var tl = function(argument) {
 			console.log(argument);
@@ -44,6 +44,11 @@
 			"m" : "map",
 			"M" : "map",
 		};
+
+		var button = document.getElementById('button');
+		// console.log(button);
+		// button.textContent = "volodia";
+		// button.innerHTML  = "<h1>asdasd</h2>";
 	</script>
 	<script type="text/javascript" src="mapGenerator.js"></script>
 	<script type="text/javascript" src="objecWorkt.js"></script>

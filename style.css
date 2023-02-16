@@ -1,0 +1,77 @@
+button {
+	user-select: none;
+	border-radius: 7px;
+	margin: 10px;
+	font-size: 50px;
+	margin-left: 0;
+	width: 10%;
+	cursor: pointer;
+}
+#text {
+	margin-left: 10px;
+	font-size: 30px;
+}
+div {
+	display: inline;
+}
+.en { 
+	font-weight: bold;
+	font-size: 40px;
+	display: inline;
+}
+#smol {
+	font-weight: bold;
+	vertical-align: top;
+	margin-left: 10px;
+	font-size: 25px;
+	width: auto;
+}
+.def {
+	cursor: default;
+}
+.pointer {
+	cursor: pointer;
+}
+.add {
+	background-color: darkred;
+	display: inline;
+	margin-right: -5px; 
+	width: 4.51%;
+}
+#rotation {
+	background-color: cornflowerblue;
+}
+#rotation:hover {
+	background-color: cyan;
+	margin-top: 0;
+	padding: 8px;
+	border-radius: 13px;;
+}
+#move {
+	background-color: orangered;
+}
+#move:hover {
+	background-color: darkorange;
+	margin-top: 0;
+	padding: 8px;
+	border-radius: 13px;;
+}
+#map {
+	background-color: darkgrey;
+}
+#map:hover {
+	background-color: lightgray;
+	margin-top: 0;
+	padding: 8px;
+	border-radius: 13px;;
+}
+.add:hover {
+	margin-top: 0;
+	padding: 8px;
+	background-color: Red;
+	display: inline;
+	border-radius: 13px;;
+}
+body {
+	margin:0;
+}

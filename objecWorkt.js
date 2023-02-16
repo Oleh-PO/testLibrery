@@ -68,6 +68,21 @@ gameObject.prototype.drow = function() {
 		ctx.stroke()
 	);
 };
+var rotor = function(yF, xF) {
+	if (Math.abs(xF) > Math.abs(yF)) {
+		if (xF > 0) {
+			player.vector = 90;
+		} else {
+			player.vector = 270;
+		}
+	} else {
+		if (yF > 0) {
+			player.vector = 180;
+		} else {
+			player.vector = 0;
+		}
+	}
+}
 gameObject.prototype.rotation = function() {
 	ctx.strokeStyle = "Black";
 	ctx.beginPath();

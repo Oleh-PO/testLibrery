@@ -9,6 +9,7 @@ while (seed < 99999) {
 	seed = Math.floor(Math.random() * 1000000);
 };
 // seed = 721557;
+
 console.log(seed);
 var getRandomBySeed = function(chance, mod) { // по стандарту шанс 50%
 	var prok = 0;
