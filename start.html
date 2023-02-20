@@ -12,13 +12,12 @@
 	<button class="add">1</button>
 	<button class="add">2</button>
 	<button class="add">3</button>
-	<h1 class="en">Left :</h1>
-	<output name="number" class="en">5</output>
-	<button id="smol">END <br> TURN</button>
+	<div>
+		<h1 class="en">Left :</h1>
+		<h1 id="number" class="en">5</h1>
+	</div>
+	<button id="smol">END <br> TURN</button>	
 	<script type="text/javascript">
-		var tl = function(argument) {
-			console.log(argument);
-		};
 		var can = document.getElementById('canvas');
 		var ctx = can.getContext("2d");
 		var size = 75;

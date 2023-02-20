@@ -2,6 +2,7 @@ var keyPress;
 var mapFlag = false;
 var isMoving = false;
 var isRotation = false;
+var trail = [];
 var stats = {
 	energyMax : 5,
 	energyLeft : 0,
@@ -11,10 +12,57 @@ var stats = {
 	},
 	invSlots : 10,
 }
+var output = document.getElementById("number");
 document.addEventListener('keydown', function(event) {
 	player.moveBS(keyPress);
 	screenWork();
 });
+var trailSupport = function(xF, yF) {
+	if (testRoom(xF, yF)) {
+		return ["x", xF];
+	} else if (testRoom(xF - 1 , yF + 1)) {
+		return ["y", yF + 1];
+	} else if (testRoom(xF - 1 , yF - 1)) {
+		return ["y", yF - 1];
+	} else {
+		return [false];
+	}
+}
+var faindTrail = function(xF, yF) {
+	trail = [];
+	ctx.strokeStyle = "Black";
+	ctx.moveTo(player.x, player.y);
+	var coord = {
+		x : (player.x - size / 2) / size,
+		y : (player.y - size / 2) / size,
+	}
+	for (var i = 0; i < stats.energyMax * 2; i++) {
+		if (coord.x !== xF || coord.y !== yF) {
+			if (Math.abs(coord.x - xF) > Math.abs(coord.y - yF)) {
+				if (coord.x - xF > 0) {
+					coord.x--;
+				} else {
+					if (trailSupport(coord.x + 1, coord.y)[0] === "x") {
+						coord.x = trailSupport(coord.x + 1, coord.y)[1];
+					} else if (trailSupport(coord.x + 1, coord.y)[0] === "y") {
+						coord.y = trailSupport(coord.x + 1, coord.y)[1];
+					}
+				}
+			} else {
+				if (coord.y - yF > 0) {
+					coord.y--;
+				} else {
+					coord.y++;
+				}
+			}
+			// if (testRoom(coord.x, coord.y)) {
+				trail.push({x : coord.x, y : coord.y});
+				ctx.lineTo(coord.x * size + size / 2, coord.y * size + size / 2);
+			// }
+		}
+	}
+}
+
 var moveFlag = function(what) {
 	switch (what) {
 		case 'mave':

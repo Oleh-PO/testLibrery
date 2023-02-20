@@ -9,6 +9,9 @@ roomMap = {
 	6 : {
 		2 : "rock",
 	},
+	4 : {
+		9 : "rock",
+	},
 	8 : {
 		5 : "rock",
 	},
@@ -16,11 +19,10 @@ roomMap = {
 var testRoom = function(xF, yF) {
 	if (roomMap[yF]) {
 		if (roomMap[yF][xF]) {
-			return true;
-		} else {
 			return false;
-		};
-	};
+		}
+	}
+	return true;
 };
 var roomDrow = function() {
 	ctx.fillStyle = "Peru";

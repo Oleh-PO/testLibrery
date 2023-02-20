@@ -7,15 +7,27 @@ button {
 	width: 10%;
 	cursor: pointer;
 }
+h1 {
+	user-select: none;
+	font-family: sans-serif;
+	font-weight: normal;
+	margin: 0px;
+}
 #text {
 	margin-left: 10px;
 	font-size: 30px;
 }
 div {
-	display: inline;
+	padding-top: 10px;
+	padding-bottom: 3px;
+	margin-left: 10px;
+	display: inline-block;
+	border-style: solid;
+	border-width: 2px;
+	border-radius: 7px;
 }
 .en { 
-	font-weight: bold;
+	user-select: none;
 	font-size: 40px;
 	display: inline;
 }
@@ -36,7 +48,7 @@ div {
 	background-color: darkred;
 	display: inline;
 	margin-right: -5px; 
-	width: 4.51%;
+	width: 3%;
 }
 #rotation {
 	background-color: cornflowerblue;
@@ -68,10 +80,11 @@ div {
 .add:hover {
 	margin-top: 0;
 	padding: 8px;
-	background-color: Red;
+	background-color: red;
 	display: inline;
 	border-radius: 13px;;
 }
 body {
+	user-select: none;
 	margin:0;
 }
