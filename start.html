@@ -9,9 +9,9 @@
 	<button id="move" onclick="moveFlag('mave')">move</button>
 	<button id="rotation" onclick="moveFlag('rot')">rotation</button>
 	<button id="map" onclick="moveFlag('map')">map</button>
-	<button class="add">1</button>
-	<button class="add">2</button>
-	<button class="add">3</button>
+	<button class="add" id="first" onclick="buttonPush(0)">1</button>
+	<button class="add" id="second" onclick="buttonPush(1)">2</button>
+	<button class="add" id="third" onclick="buttonPush(2)">3</button>
 	<div>
 		<h1 class="en">Left :</h1>
 		<h1 id="number" class="en">5</h1>
@@ -24,11 +24,11 @@
 		var offset = size / 10;
 		ctx.lineWidth = size / 10;
 		var screenSive = {
-			width : 1900,
-			height : 675,
+			width : size * 16,
+			height : size * 9,
 		};
 		var mapSize = {
-			y : 9,
+			y : 8,
 			x : 9,
 		};
 		var keyList = {
@@ -43,16 +43,13 @@
 			"m" : "map",
 			"M" : "map",
 		};
-
-		var button = document.getElementById('button');
-		// console.log(button);
-		// button.textContent = "volodia";
-		// button.innerHTML  = "<h1>asdasd</h2>";
 	</script>
+	<script type="text/javascript" src="idBase.js"></script>
 	<script type="text/javascript" src="mapGenerator.js"></script>
 	<script type="text/javascript" src="objecWorkt.js"></script>
 	<script type="text/javascript" src="roomWork.js"></script>
 	<script type="text/javascript" src="base.js"></script>
 	<script type="text/javascript" src="mausWork.js"></script>
+	<script type="text/javascript" src="invent.js"></script>
 </body>
 </html>

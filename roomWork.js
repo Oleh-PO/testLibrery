@@ -27,7 +27,7 @@ var testRoom = function(xF, yF) {
 var roomDrow = function() {
 	ctx.fillStyle = "Peru";
 	ctx.strokeStyle = "Black";
-	ctx.fillRect(0, 0, size * 16, size * 9);
+	ctx.fillRect(0, 0, screenSive.width, screenSive.height);
 	ctx.beginPath();
 	ctx.moveTo(0, 0);
 	ctx.lineTo(size * 16, 0);

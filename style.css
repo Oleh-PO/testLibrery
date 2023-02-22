@@ -1,4 +1,6 @@
 button {
+	line-height: 1;
+	padding: 0;
 	user-select: none;
 	border-radius: 7px;
 	margin: 10px;
@@ -27,6 +29,7 @@ div {
 	border-radius: 7px;
 }
 .en { 
+	line-height: 1;
 	user-select: none;
 	font-size: 40px;
 	display: inline;

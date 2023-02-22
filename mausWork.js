@@ -5,8 +5,8 @@ var blockMouse = {
 canvas.addEventListener('click', function(event) {
 	if (isMoving && mapFlag === false) {
 		rotor(event.y - player.y, event.x - player.x);
-		player.x = Math.floor(event.x / size) * size + size / 2;
-		player.y = Math.floor(event.y / size) * size + size / 2;
+		player.x = trail[trail.length - 1]["x"] * size + size / 2;
+		player.y = trail[trail.length - 1]["y"] * size + size / 2;
 		isMoving = false;
 	} else if (isRotation) {
 		rotor(event.y - player.y, event.x - player.x);
@@ -19,15 +19,20 @@ canvas.addEventListener('click', function(event) {
 });
 canvas.addEventListener('mousemove', function(event) {
 	if (isMoving && mapFlag === false) {
-		blockMouse.x = Math.floor(event.x / size);
-		blockMouse.y = Math.floor(event.y / size);
 		screenWork();
+		ctx.beginPath();
+		faindTrail(Math.floor(event.x / size), Math.floor(event.y / size));
+		ctx.stroke();
+		if (trail[trail.length - 1]) {
+			blockMouse.x = trail[trail.length - 1]["x"];
+			blockMouse.y = trail[trail.length - 1]["y"];
+		} else {
+			blockMouse.x = player.x;
+			blockMouse.y = player.y;
+		}
 		ctx.strokeStyle = "Red";
 		ctx.beginPath();
 		circle(blockMouse.x * size + size / 2, blockMouse.y * size + size / 2, size * 0.4);
-		ctx.stroke();
-		ctx.beginPath();
-		faindTrail(Math.floor(event.x / size), Math.floor(event.y / size));
 		ctx.stroke();
 	};
 });

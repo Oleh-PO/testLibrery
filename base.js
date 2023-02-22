@@ -2,6 +2,7 @@ var keyPress;
 var mapFlag = false;
 var isMoving = false;
 var isRotation = false;
+var weaponSelect = false;
 var trail = [];
 var stats = {
 	energyMax : 5,
@@ -10,27 +11,39 @@ var stats = {
 		x : 4,
 		y : 4,
 	},
-	invSlots : 10,
+	invSlots : 9,
 }
 var output = document.getElementById("number");
 document.addEventListener('keydown', function(event) {
 	player.moveBS(keyPress);
 	screenWork();
 });
-var trailSupport = function(xF, yF) {
-	if (testRoom(xF, yF)) {
-		return ["x", xF];
-	} else if (testRoom(xF - 1 , yF + 1)) {
-		return ["y", yF + 1];
-	} else if (testRoom(xF - 1 , yF - 1)) {
-		return ["y", yF - 1];
+var trailSupport = function(xF, yF, mod) {
+	if (mod) {
+		if (testRoom(xF, yF)) {
+			return ["x", xF];
+		} else if (testRoom(xF - 1 , yF + 1)) {
+			return ["y", yF + 1];
+		} else if (testRoom(xF - 1 , yF - 1)) {
+			return ["y", yF - 1];
+		} else {
+			return ["x", xF - 1];
+		}
 	} else {
-		return [false];
+		if (testRoom(xF, yF)) {
+			return ["y", yF];
+		} else if (testRoom(yF - 1 , xF + 1)) {
+			return ["x", xF + 1];
+		} else if (testRoom(yF - 1 , xF - 1)) {
+			return ["x", xF - 1];
+		} else {
+			return ["y", yF - 1];
+		}
 	}
 }
 var faindTrail = function(xF, yF) {
 	trail = [];
-	ctx.strokeStyle = "Black";
+	ctx.strokeStyle = player.color;
 	ctx.moveTo(player.x, player.y);
 	var coord = {
 		x : (player.x - size / 2) / size,
@@ -40,29 +53,79 @@ var faindTrail = function(xF, yF) {
 		if (coord.x !== xF || coord.y !== yF) {
 			if (Math.abs(coord.x - xF) > Math.abs(coord.y - yF)) {
 				if (coord.x - xF > 0) {
-					coord.x--;
+					if (trailSupport(coord.x - 1, coord.y, true)[0] === "x") {
+						coord.x = trailSupport(coord.x - 1, coord.y, true)[1];
+					} else if (trailSupport(coord.x - 1, coord.y, true)[0] === "y") {
+						coord.y = trailSupport(coord.x - 1, coord.y, true)[1];
+					}
 				} else {
-					if (trailSupport(coord.x + 1, coord.y)[0] === "x") {
-						coord.x = trailSupport(coord.x + 1, coord.y)[1];
-					} else if (trailSupport(coord.x + 1, coord.y)[0] === "y") {
-						coord.y = trailSupport(coord.x + 1, coord.y)[1];
+					if (trailSupport(coord.x + 1, coord.y, true)[0] === "x") {
+						coord.x = trailSupport(coord.x + 1, coord.y, true)[1];
+					} else if (trailSupport(coord.x + 1, coord.y, true)[0] === "y") {
+						coord.y = trailSupport(coord.x + 1, coord.y, true)[1];
 					}
 				}
 			} else {
 				if (coord.y - yF > 0) {
-					coord.y--;
+					if (trailSupport(coord.x, coord.y - 1, false)[0] === "x") {
+						coord.x = trailSupport(coord.x, coord.y - 1, false)[1];
+					} else if (trailSupport(coord.x, coord.y - 1, false)[0] === "y") {
+						coord.y = trailSupport(coord.x, coord.y - 1, false)[1];
+					}
 				} else {
-					coord.y++;
+					if (trailSupport(coord.x, coord.y + 1, false)[0] === "x") {
+						coord.x = trailSupport(coord.x, coord.y + 1, false)[1];
+					} else if (trailSupport(coord.x, coord.y + 1, false)[0] === "y") {
+						coord.y = trailSupport(coord.x, coord.y + 1, false)[1];
+					}
 				}
 			}
-			// if (testRoom(coord.x, coord.y)) {
-				trail.push({x : coord.x, y : coord.y});
-				ctx.lineTo(coord.x * size + size / 2, coord.y * size + size / 2);
-			// }
+			trail.push({x : coord.x, y : coord.y});
+			ctx.lineTo(coord.x * size + size / 2, coord.y * size + size / 2);
+		} else {
+			return;
 		}
 	}
 }
+var buttonPush = function(number) {
+	if (weaponSelect === false || weaponSelect !== number) {
+		weaponSelect = inventory[number];
+	} else {
+		weaponSelect = false;
+	}
+	screenWork();
+}
+var combat = function() {
 
+}
+var showTarget = function() {
+	if (weaponSelect !== false) {
+		for (var i = 0; i < weapon[weaponSelect].map.right['length']; i++) {
+  		ctx.beginPath();
+			ctx.fillStyle = "#b13c3c";
+			square(Math.floor(player.x / size  + weapon[weaponSelect].map.right[i].x) * size + size / 2, Math.floor(player.y / size + weapon[weaponSelect].map.right[i].y) * size + size / 2, size / 2);
+			ctx.fill();
+		}
+		for (var i = 0; i < weapon[weaponSelect].map.top['length']; i++) {
+    	ctx.beginPath();
+			ctx.fillStyle = "#b13c3c";
+			square(Math.floor(player.x / size  + weapon[weaponSelect].map.top[i].x) * size + size / 2, Math.floor(player.y / size + weapon[weaponSelect].map.top[i].y) * size + size / 2, size / 2);
+			ctx.fill();
+		}
+		for (var i = 0; i < weapon[weaponSelect].map.bottom['length']; i++) {
+  		ctx.beginPath();
+			ctx.fillStyle = "#b13c3c";
+			square(Math.floor(player.x / size  + weapon[weaponSelect].map.bottom[i].x) * size + size / 2, Math.floor(player.y / size + weapon[weaponSelect].map.bottom[i].y) * size + size / 2, size / 2);
+			ctx.fill();
+		}
+		for (var i = 0; i < weapon[weaponSelect].map.left['length']; i++) {
+    	ctx.beginPath();
+			ctx.fillStyle = "#b13c3c";
+			square(Math.floor(player.x / size  + weapon[weaponSelect].map.left[i].x) * size + size / 2, Math.floor(player.y / size + weapon[weaponSelect].map.left[i].y) * size + size / 2, size / 2);
+			ctx.fill();
+		}
+	}
+}
 var moveFlag = function(what) {
 	switch (what) {
 		case 'mave':
@@ -112,9 +175,11 @@ var mapDrow = function() {
 var screenWork = function() {
 	ctx.clearRect(0, 0, screenSive.width, screenSive.height);
 	roomDrow();
+	showTarget()
 	player.drow();
 	player.rotation();
 	mapDrow();
+	openInventory();
 };
 
 document.addEventListener('DOMContentLoaded', screenWork);

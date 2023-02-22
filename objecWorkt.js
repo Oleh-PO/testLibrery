@@ -1,6 +1,6 @@
 var gameObject = function(thisRadius, thisColor, thisFigure, thisFill) {
-	this.x = (size / 2);
-	this.y = (size / 2);
+	this.x = (size / 2) + size * 5;
+	this.y = (size / 2) + size * 5;
 	this.radius = thisRadius;
 	this.speed = 0;
 	this.vector = 0;
@@ -17,6 +17,7 @@ var square = function(xF, yF, radiusF) {
 	ctx.lineTo(xF + radiusF, yF + radiusF);
 	ctx.lineTo(xF + radiusF, yF - radiusF);
 	ctx.lineTo(xF - radiusF, yF - radiusF);
+	ctx.lineTo(xF - radiusF, yF + radiusF);
 };
 var triangle = function(xF, yF, radiusF) {
 	ctx.moveTo(xF, yF - radiusF);

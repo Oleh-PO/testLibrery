@@ -63,8 +63,8 @@ var detect = function(operator) {
 };
 var setMap = function (number) {
 	bigMap = {
-		4 : {
-			4 : "room",
+		[Math.floor(mapSize.y / 2)] : {
+			[Math.floor(mapSize.y / 2)] : "room",
 		},
 	};
 	for (var i = 0; i < 5; i++) {
