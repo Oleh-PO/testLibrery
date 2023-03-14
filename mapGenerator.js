@@ -13,16 +13,11 @@ while (seed < 99999) {
 console.log(seed);
 var getRandomBySeed = function(chance, mod) { // по стандарту шанс 50%
 	var prok = 0;
-	for (var i = 0; i < 9; i++) {
-		if ((Math.sin(seed * mod) + (chance / 10)) > 0) {
-			prok++;
-		};
-		if (prok >= 5) {
-			return true;
-		};
+	if (((Math.sin(seed * mod) + Math.sin(seed) / 2) + (chance / 10)) > 0) {
+		return true;
 	};
-	return false;
-};
+	return false
+	};
 var scan = function(YF, XF) { // функція яка перевіряє наявність кімнати
 	if (bigMap[YF]) {
 		if (bigMap[YF][XF] === undefined) {
@@ -34,7 +29,7 @@ var scan = function(YF, XF) { // функція яка перевіряє ная
 };
 var possibleTry = function() {
 	for (var i = 0; i < possible.length; i++) {
-		if (getRandomBySeed(10 / possible.length, Math.tan(i))) {
+		if (getRandomBySeed(10 / possible.length, Math.tan(i * Math.sin(seed - 3 * i)))) {
 			var select = possible[i];
 			var simplify = bigMap[select["YF"]];
 			if (bigMap[select["YF"]]) {

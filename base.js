@@ -5,17 +5,22 @@ var isRotation = false;
 var weaponSelect = false;
 var trail = [];
 var stats = {
+	hp : 10,
 	energyMax : 5,
-	energyLeft : 0,
+	energyLeft : 5,
 	room : {
 		x : 4,
 		y : 4,
 	},
 	invSlots : 9,
 }
+var moveSwitch = document.getElementById("moveSwitch");
+var energySwitch = document.getElementById("energySwitch");
+var hpSwitch = document.getElementById("hpSwitch");
 var output = document.getElementById("number");
 document.addEventListener('keydown', function(event) {
-	player.moveBS(keyPress);
+	titlel = "test";
+	console.log(true)
 	screenWork();
 });
 var trailSupport = function(xF, yF, mod) {
@@ -41,6 +46,12 @@ var trailSupport = function(xF, yF, mod) {
 		}
 	}
 }
+var vectorHelp = function(xF, yF) {
+	if (player.vector === rotor(xF, yF)) {
+		return 0;
+	}
+	return 1;
+}
 var faindTrail = function(xF, yF) {
 	trail = [];
 	ctx.strokeStyle = player.color;
@@ -49,7 +60,7 @@ var faindTrail = function(xF, yF) {
 		x : (player.x - size / 2) / size,
 		y : (player.y - size / 2) / size,
 	}
-	for (var i = 0; i < stats.energyMax * 2; i++) {
+	for (var i = 0; i < (stats.energyLeft - vectorHelp(yF*size - player.y, xF*size - player.x)) * 5; i++) {
 		if (coord.x !== xF || coord.y !== yF) {
 			if (Math.abs(coord.x - xF) > Math.abs(coord.y - yF)) {
 				if (coord.x - xF > 0) {
@@ -87,8 +98,41 @@ var faindTrail = function(xF, yF) {
 		}
 	}
 }
+var end = function() {
+	stats.energyLeft = stats.energyMax;
+	number.textContent = stats.energyLeft;
+}
+
+var settings = function(switchType) {
+	debugger
+	switch (switchType) {
+		case 'move':
+			moveSwitch.value = Math.abs(moveSwitch.value - 1);
+			break;
+		case 'energy':
+			energySwitch.value = Math.abs(energySwitch.value - 1);
+			break;
+		case 'hp':
+			hpSwitch.value = Math.abs(hpSwitch.value - 1);
+			break;
+	}
+	screenWork();
+}
+var testSettings = function() {
+	if (moveSwitch.value === "1") {
+		isMoving = true;
+		cursorCheng();
+	}
+	if (energySwitch.value === "1") {
+		stats.energyLeft = stats.energyMax;
+		updateHud();
+	}
+}
 var buttonPush = function(number) {
-	if (weaponSelect === false || weaponSelect !== number) {
+	if (weaponSelect === false || weaponSelect !== inventory[number]) {
+		isMoving = false;
+		isRotation = false;
+		mapFlag = false;
 		weaponSelect = inventory[number];
 	} else {
 		weaponSelect = false;
@@ -124,19 +168,44 @@ var showTarget = function() {
 			square(Math.floor(player.x / size  + weapon[weaponSelect].map.left[i].x) * size + size / 2, Math.floor(player.y / size + weapon[weaponSelect].map.left[i].y) * size + size / 2, size / 2);
 			ctx.fill();
 		}
+		cell();
 	}
+}
+var cell = function() {
+	ctx.strokeStyle = "Black";
+	ctx.lineWidth = size / 20;
+	for (var i = 0; i < 16; i++) {
+		ctx.beginPath()
+		ctx.moveTo(i * size, 0);
+		ctx.lineTo(i * size, screenSive.height);
+		ctx.stroke();
+	}
+	for (var i = 0; i < 10; i++) {
+		ctx.beginPath()
+		ctx.moveTo(0, i * size);
+		ctx.lineTo(screenSive.width, i * size);
+		ctx.stroke();
+	}
+	ctx.lineWidth = size / 10;
 }
 var moveFlag = function(what) {
 	switch (what) {
 		case 'mave':
+			mapFlag = false;
 			isMoving = !isMoving
 			isRotation = false;
+			weaponSelect = false;
 			break;
 		case 'map':
+			weaponSelect = false;
+			isMoving = false;
+			isRotation = false;
 			mapFlag = !mapFlag; 
 			break;
 		case 'rot':
-			isRotation = !isRotation; 
+			mapFlag = false;
+			isRotation = !isRotation;
+			weaponSelect = false;
 			isMoving = false;
 			break;
 	}
@@ -167,6 +236,13 @@ var mapDrow = function() {
 					ctx.fillRect(145 + size * o, 60 + size * i, (size * 0.75), (size * 0.75));
 					ctx.fillRect(145 + size * o + size / 2, 60 + size * i + size / 3, size / 2, size / 10);
 					ctx.fillRect(145 + size * o + size / 2.3, 60 + size * i, -(size / 10), size);
+					if (stats.room.x === o && stats.room.y === i) {
+						ctx.fillStyle = player.color;
+						ctx.beginPath();
+						circle(145 + size * o + (size * 0.75) / 2, 60 + size * i + (size * 0.75) / 2, size / 4);
+						ctx.fill();
+						ctx.fillStyle = "Black";
+					}
 				};
 			};
 		};
@@ -174,12 +250,14 @@ var mapDrow = function() {
 };
 var screenWork = function() {
 	ctx.clearRect(0, 0, screenSive.width, screenSive.height);
+	testSettings();
 	roomDrow();
-	showTarget()
+	showTarget();
 	player.drow();
 	player.rotation();
 	mapDrow();
 	openInventory();
+	updateHud();
 };
 
 document.addEventListener('DOMContentLoaded', screenWork);

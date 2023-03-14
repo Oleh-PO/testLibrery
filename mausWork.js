@@ -4,22 +4,42 @@ var blockMouse = {
 };
 canvas.addEventListener('click', function(event) {
 	if (isMoving && mapFlag === false) {
-		rotor(event.y - player.y, event.x - player.x);
-		player.x = trail[trail.length - 1]["x"] * size + size / 2;
-		player.y = trail[trail.length - 1]["y"] * size + size / 2;
-		isMoving = false;
+		if (Math.floor(event.x / size) !== Math.floor(player.x / size) || Math.floor(event.y / size) !== Math.floor(player.y / size)) {
+			if (stats.energyLeft > 0) {
+				player.vector =  rotor(event.y - player.y, event.x - player.x, true);
+				player.x = trail[trail.length - 1]["x"] * size + size / 2;
+				player.y = trail[trail.length - 1]["y"] * size + size / 2;
+				stats.energyLeft -= (trail.length / 5);
+				stats.energyLeft = Math.ceil(stats.energyLeft * 10) / 10;
+				isMoving = false;
+			}
+		}
 	} else if (isRotation) {
-		rotor(event.y - player.y, event.x - player.x);
+		if (stats.energyLeft >= 1) {
+			player.vector =  rotor(event.y - player.y, event.x - player.x, true);
+		}
 		isRotation = false;
 	} else if (mapFlag) {
-		console.log(true);
+		if (event.x > 145 && event.y > 60 && event.x < (mapSize.x + 1) * size && event.y < (mapSize.y + 1) * size) {
+			if (bigMap[Math.floor((event.y - 60) / size)]) {
+				if (bigMap[Math.floor((event.y - 60) / size)][Math.floor((event.x - 145) / size)]) {
+					stats.room = {
+						x : Math.floor((event.x - 145) / size),
+						y : Math.floor((event.y - 60) / size),
+					}
+				}
+			}
+		}
 	}
+	stats.energyLeft = Math.ceil(stats.energyLeft * 10) / 10;
+	number.textContent = Math.floor(stats.energyLeft);
 	cursorCheng();
 	screenWork();
 });
 canvas.addEventListener('mousemove', function(event) {
 	if (isMoving && mapFlag === false) {
 		screenWork();
+		cell();
 		ctx.beginPath();
 		faindTrail(Math.floor(event.x / size), Math.floor(event.y / size));
 		ctx.stroke();

@@ -1,4 +1,5 @@
 button {
+	clear: both;
 	line-height: 1;
 	padding: 0;
 	user-select: none;
@@ -8,18 +9,79 @@ button {
 	margin-left: 0;
 	width: 10%;
 	cursor: pointer;
+	-webkit-transition: 0.2s;
+}
+button:disabled {
+	cursor: default;
+}
+canvas {
+	float: left;
+	display: block;
+}
+input[type="range"] {
+	-webkit-appearance: none;
+	appearance: none;
+	border: none;
+	border-radius: 30px;
+	background-color: blueviolet;
+	width: 50px;
+	height: 20px;
+	opacity: 0.75;
+	display: block;
+	cursor: pointer;
+	-webkit-transition: 0.2s;
+}
+input::-webkit-slider-thumb {
+	opacity: 1;
+	-webkit-appearance: none;
+	width: 35px;
+  height: 35px;
+  border-radius: 35px; 
+  background-color: black;
+}
+input:hover {
+	opacity: 1;
+}
+label {
+	cursor: pointer;
 }
 h1 {
+	float: none;
+	clear: both;
 	user-select: none;
 	font-family: sans-serif;
 	font-weight: normal;
 	margin: 0px;
 }
+.setings {
+	display: inline-block;
+	padding: 10px;
+}
 #text {
 	margin-left: 10px;
 	font-size: 30px;
 }
-div {
+.divBlock {
+	display: block;
+	clear: both;
+}
+.hp {
+	margin: 5px;
+	display: block;
+	clear: both;
+	border: 10px solid block;
+	background-color: red;
+	width: 0;
+	height: 25px;
+}
+.hpt {
+	font-weight: bold;
+	font-size: 25px;
+	letter-spacing: 2px;
+	margin-left: 5px;
+	text-align: left;
+}
+.divOne {
 	padding-top: 10px;
 	padding-bottom: 3px;
 	margin-left: 10px;
@@ -80,7 +142,7 @@ div {
 	padding: 8px;
 	border-radius: 13px;;
 }
-.add:hover {
+.add:hover:enabled {
 	margin-top: 0;
 	padding: 8px;
 	background-color: red;
